@@ -1,122 +1,513 @@
-# Sistema de Cadastro de Dispositivos
+# Desafio FullStack Novellus
 
 Sistema full-stack para cadastro de dispositivos com atualização em tempo real via WebSocket.
 
-## Tecnologias
+## 📋 Índice
 
-- **Backend**: Node.js + Express + Socket.io + MySQL
-- **Frontend**: Vue 3 + Socket.io-client + Vite
-- **Banco de Dados**: MySQL
+- [Pré-requisitos](#-pré-requisitos)
+- [Passo a Passo Completo](#-passo-a-passo-completo)
+- [Tecnologias](#-tecnologias)
+- [Estrutura do Projeto](#-estrutura-do-projeto)
+- [API Endpoints](#-api-endpoints)
+- [Testes](#-testes)
+- [Troubleshooting](#-troubleshooting)
 
-## Pré-requisitos
+---
 
-- Node.js (v18 ou superior)
-- MySQL (v8 ou superior)
-- npm ou yarn
+## 🔧 Pré-requisitos
 
-## Instalação
+Antes de começar, certifique-se de ter instalado:
 
-### 1. Configurar Banco de Dados
+1. **Node.js** (versão 18 ou superior)
+   - Download: https://nodejs.org/
+   - Verificar instalação: `node --version`
+   - Verificar npm: `npm --version`
 
-Certifique-se de que o MySQL está rodando e execute:
+2. **MySQL** (versão 8 ou superior)
+   - Download: https://dev.mysql.com/downloads/mysql/
+   - Ou use XAMPP/WAMP que inclui MySQL
+   - Verificar instalação: `mysql --version`
 
+3. **Git** (opcional, para clonar do GitHub)
+   - Download: https://git-scm.com/
+
+4. **Editor de Código** (VS Code, WebStorm, etc.)
+
+---
+
+## 🚀 Passo a Passo Completo
+
+### **PASSO 1: Baixar/Clonar o Projeto**
+
+#### Opção A: Clonar via Git
+```bash
+git clone https://github.com/wesmoura/DESAFIOFULLSTACKNOVELLU.git
+cd DESAFIOFULLSTACKNOVELLU
+```
+
+#### Opção B: Baixar ZIP
+1. Acesse: https://github.com/wesmoura/DESAFIOFULLSTACKNOVELLU
+2. Clique em "Code" → "Download ZIP"
+3. Extraia o arquivo ZIP
+4. Abra a pasta extraída no seu editor de código
+
+---
+
+### **PASSO 2: Verificar a Estrutura do Projeto**
+
+Você deve ver a seguinte estrutura:
+```
+DESAFIOFULLSTACKNOVELLU/
+├── backend/
+│   ├── src/
+│   │   ├── db.js
+│   │   ├── routes.js
+│   │   └── server.js
+│   ├── tests/
+│   │   └── run-tests.js
+│   ├── package.json
+│   └── setup-db.js
+├── frontend/
+│   ├── App.vue
+│   ├── index.html
+│   ├── main.js
+│   ├── package.json
+│   └── vite.config.js
+├── database/
+│   └── schema.sql
+├── .gitignore
+└── README.md
+```
+
+---
+
+### **PASSO 3: Configurar o MySQL**
+
+#### 3.1. Iniciar o MySQL
+- **Windows**: Abra o MySQL Workbench ou inicie o serviço MySQL pelo Painel de Controle
+- **Linux/Mac**: `sudo service mysql start` ou `brew services start mysql`
+
+#### 3.2. Criar o Banco de Dados
+
+**Opção A: Usando o script automático (Recomendado)**
 ```bash
 cd backend
+npm install
 npm run setup-db
 ```
 
-Ou execute manualmente o SQL em `database/schema.sql`:
+**Opção B: Manualmente via MySQL**
+1. Abra o MySQL Workbench ou terminal MySQL
+2. Execute o SQL do arquivo `database/schema.sql`:
+   ```sql
+   CREATE DATABASE IF NOT EXISTS devicesdb;
+   USE devicesdb;
+   
+   CREATE TABLE devices (
+     id INT AUTO_INCREMENT PRIMARY KEY,
+     name VARCHAR(100) NOT NULL,
+     mac VARCHAR(32) NOT NULL UNIQUE,
+     status ENUM('ATIVO','INATIVO') NOT NULL DEFAULT 'ATIVO',
+     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+   );
+   ```
 
-```sql
-CREATE DATABASE IF NOT EXISTS devicesdb;
-USE devicesdb;
+#### 3.3. Configurar Credenciais do MySQL
 
-CREATE TABLE devices (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  mac VARCHAR(32) NOT NULL UNIQUE,
-  status ENUM('ATIVO','INATIVO') NOT NULL DEFAULT 'ATIVO',
-  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
+Edite o arquivo `backend/src/db.js` com suas credenciais:
+
+```javascript
+export const db = await mysql.createPool({
+  host: 'localhost',        // Seu host MySQL
+  user: 'root',            // Seu usuário MySQL
+  password: '',             // Sua senha MySQL (deixe vazio se não tiver)
+  database: 'devicesdb'     // Nome do banco criado
+});
 ```
 
-### 2. Configurar Backend
+**⚠️ IMPORTANTE**: Se você usa XAMPP/WAMP, geralmente:
+- Usuário: `root`
+- Senha: `''` (vazio) ou a senha que você configurou
+
+---
+
+### **PASSO 4: Instalar Dependências do Backend**
+
+Abra um terminal na pasta raiz do projeto e execute:
 
 ```bash
 cd backend
 npm install
 ```
 
-Edite `src/db.js` com suas credenciais do MySQL se necessário:
-- host: 'localhost'
-- user: 'root' (ou seu usuário)
-- password: '' (ou sua senha)
-- database: 'devicesdb'
+**O que acontece aqui?**
+- O npm baixa todas as dependências listadas no `package.json`
+- Cria a pasta `node_modules` com todas as bibliotecas
+- Isso pode levar alguns minutos na primeira vez
 
-### 3. Configurar Frontend
+**Dependências instaladas:**
+- express (servidor web)
+- mysql2 (conexão com MySQL)
+- socket.io (WebSocket)
+- supertest (testes)
+
+---
+
+### **PASSO 5: Instalar Dependências do Frontend**
+
+Abra um **NOVO terminal** (mantenha o anterior aberto) e execute:
 
 ```bash
 cd frontend
 npm install
 ```
 
-## Execução
+**Dependências instaladas:**
+- vue (framework frontend)
+- socket.io-client (cliente WebSocket)
+- vite (servidor de desenvolvimento)
+- @vitejs/plugin-vue (plugin Vue para Vite)
 
-### Backend
+---
+
+### **PASSO 6: Iniciar o Backend**
+
+No terminal onde você instalou as dependências do backend:
 
 ```bash
 cd backend
 npm run dev
 ```
 
-O backend estará rodando em `http://localhost:3000`
+**O que você deve ver:**
+```
+✅ Conectado ao banco de dados MySQL
+Backend rodando na porta 3000
+```
 
-### Frontend
+**✅ SUCESSO**: Se aparecer "Backend rodando na porta 3000", está funcionando!
+
+**❌ ERRO**: Se aparecer erro de conexão MySQL:
+- Verifique se o MySQL está rodando
+- Verifique as credenciais em `backend/src/db.js`
+- Verifique se o banco `devicesdb` foi criado
+
+**⚠️ MANTENHA ESTE TERMINAL ABERTO!** O backend precisa ficar rodando.
+
+---
+
+### **PASSO 7: Iniciar o Frontend**
+
+Abra um **NOVO terminal** (agora você terá 2 terminais abertos) e execute:
 
 ```bash
 cd frontend
 npm run dev
 ```
 
-O frontend estará rodando em `http://localhost:5173` (ou porta similar do Vite)
+**O que você deve ver:**
+```
+  VITE v5.x.x  ready in xxx ms
 
-## Testes
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+```
+
+**✅ SUCESSO**: O frontend está rodando em `http://localhost:5173`
+
+---
+
+### **PASSO 8: Acessar a Aplicação**
+
+1. Abra seu navegador (Chrome, Firefox, Edge, etc.)
+2. Acesse: **http://localhost:5173**
+3. Você verá a interface do sistema!
+
+---
+
+### **PASSO 9: Testar a Aplicação**
+
+1. **Cadastrar um dispositivo:**
+   - Preencha "Nome do Dispositivo" (ex: "Router TP-Link")
+   - Preencha "Endereço MAC" (ex: "AA:BB:CC:DD:EE:FF")
+   - Clique em "Cadastrar Dispositivo"
+
+2. **Ver o dispositivo na tabela:**
+   - O dispositivo deve aparecer na tabela abaixo
+   - Status inicial será "ATIVO" (verde)
+
+3. **Alternar status:**
+   - Clique no botão "Desativar" na linha do dispositivo
+   - O status deve mudar para "INATIVO" (vermelho)
+
+4. **Testar atualização em tempo real:**
+   - Abra outra aba do navegador em `http://localhost:5173`
+   - Cadastre um novo dispositivo em uma aba
+   - Veja aparecer automaticamente na outra aba! 🎉
+
+---
+
+## 🧪 Testes
+
+Para executar os testes automatizados:
 
 ```bash
 cd backend
 npm test
 ```
 
-Os testes incluem:
-- 1 teste unitário (validação de MAC único)
-- 6 testes de integração (todas as rotas)
+**O que os testes verificam:**
+- ✅ 1 teste unitário: Validação de MAC único no banco
+- ✅ 6 testes de integração:
+  - POST /api/devices (criar dispositivo)
+  - POST /api/devices (validação de campos obrigatórios)
+  - POST /api/devices (validação de MAC único)
+  - GET /api/devices (listar dispositivos)
+  - PATCH /api/devices/:id/status (alternar status)
+  - PATCH /api/devices/:id/status (device não encontrado)
 
-## API Endpoints
+---
 
-- `POST /api/devices` - Cria um dispositivo
-  - Body: `{ "name": "string", "mac": "string" }`
-  - Validações: name e mac obrigatórios, mac único
+## 📁 Estrutura do Projeto
 
-- `GET /api/devices` - Lista todos os dispositivos
-  - Retorna array de dispositivos ordenados por ID (mais recente primeiro)
+```
+DESAFIOFULLSTACKNOVELLU/
+│
+├── backend/                 # Servidor Node.js
+│   ├── src/
+│   │   ├── server.js       # Configuração do servidor Express + Socket.io
+│   │   ├── routes.js       # Rotas da API (POST, GET, PATCH)
+│   │   └── db.js           # Conexão com MySQL
+│   ├── tests/
+│   │   └── run-tests.js    # Testes automatizados
+│   ├── package.json        # Dependências do backend
+│   └── setup-db.js         # Script para criar banco de dados
+│
+├── frontend/                # Aplicação Vue 3
+│   ├── App.vue             # Componente principal
+│   ├── main.js             # Ponto de entrada Vue
+│   ├── index.html          # HTML base
+│   ├── vite.config.js      # Configuração do Vite
+│   └── package.json        # Dependências do frontend
+│
+├── database/
+│   └── schema.sql          # Schema do banco de dados MySQL
+│
+├── .gitignore              # Arquivos ignorados pelo Git
+└── README.md               # Este arquivo
+```
 
-- `PATCH /api/devices/:id/status` - Alterna o status do dispositivo
-  - Alterna entre ATIVO e INATIVO
+---
 
-## WebSocket Events
+## 🔌 API Endpoints
 
-- `device:created` - Emitido quando um novo dispositivo é criado
-  - Payload: `{ id, name, mac, status }`
+### `POST /api/devices`
+Cria um novo dispositivo.
 
-- `device:status` - Emitido quando o status de um dispositivo é alterado
-  - Payload: `{ id, name, mac, status }`
+**Request:**
+```json
+{
+  "name": "Router TP-Link",
+  "mac": "AA:BB:CC:DD:EE:FF"
+}
+```
 
-## Funcionalidades
+**Response (200):**
+```json
+{
+  "id": 1,
+  "name": "Router TP-Link",
+  "mac": "AA:BB:CC:DD:EE:FF",
+  "status": "ATIVO"
+}
+```
 
-✅ Cadastro de dispositivos com validação
-✅ Listagem de dispositivos
-✅ Alternância de status (ATIVO/INATIVO)
-✅ Atualização em tempo real via WebSocket
-✅ Testes unitários e de integração
-✅ Interface moderna e responsiva
+**Validações:**
+- `name` é obrigatório
+- `mac` é obrigatório e único
 
+---
+
+### `GET /api/devices`
+Lista todos os dispositivos.
+
+**Response (200):**
+```json
+[
+  {
+    "id": 1,
+    "name": "Router TP-Link",
+    "mac": "AA:BB:CC:DD:EE:FF",
+    "status": "ATIVO",
+    "created_at": "2025-01-XX XX:XX:XX"
+  }
+]
+```
+
+---
+
+### `PATCH /api/devices/:id/status`
+Alterna o status do dispositivo (ATIVO ↔ INATIVO).
+
+**Response (200):**
+```json
+{
+  "id": 1,
+  "name": "Router TP-Link",
+  "mac": "AA:BB:CC:DD:EE:FF",
+  "status": "INATIVO"
+}
+```
+
+---
+
+## 🔄 WebSocket Events
+
+O sistema emite eventos em tempo real via Socket.io:
+
+### `device:created`
+Emitido quando um novo dispositivo é criado.
+
+**Payload:**
+```json
+{
+  "id": 1,
+  "name": "Router TP-Link",
+  "mac": "AA:BB:CC:DD:EE:FF",
+  "status": "ATIVO"
+}
+```
+
+### `device:status`
+Emitido quando o status de um dispositivo é alterado.
+
+**Payload:**
+```json
+{
+  "id": 1,
+  "name": "Router TP-Link",
+  "mac": "AA:BB:CC:DD:EE:FF",
+  "status": "INATIVO"
+}
+```
+
+---
+
+## 🛠️ Tecnologias
+
+### Backend
+- **Node.js** - Runtime JavaScript
+- **Express** - Framework web
+- **Socket.io** - WebSocket para tempo real
+- **MySQL2** - Driver MySQL
+- **Supertest** - Testes de API
+
+### Frontend
+- **Vue 3** - Framework JavaScript
+- **Vite** - Build tool e dev server
+- **Socket.io-client** - Cliente WebSocket
+
+### Banco de Dados
+- **MySQL** - Banco de dados relacional
+
+---
+
+## ❗ Troubleshooting
+
+### Erro: "Cannot find module"
+**Solução:** Execute `npm install` na pasta do backend ou frontend.
+
+### Erro: "ECONNREFUSED" ou "MySQL não conecta"
+**Soluções:**
+1. Verifique se o MySQL está rodando
+2. Verifique as credenciais em `backend/src/db.js`
+3. Verifique se o banco `devicesdb` existe
+4. Teste a conexão: `mysql -u root -p`
+
+### Erro: "Port 3000 already in use"
+**Solução:** Altere a porta no `backend/src/server.js` ou feche o processo que está usando a porta 3000.
+
+### Erro: "Port 5173 already in use"
+**Solução:** O Vite automaticamente usa outra porta. Veja qual porta foi atribuída no terminal.
+
+### Frontend não conecta com Backend
+**Soluções:**
+1. Verifique se o backend está rodando em `http://localhost:3000`
+2. Abra o DevTools (F12) e veja os erros no Console
+3. Verifique se há erros de CORS
+
+### WebSocket não funciona
+**Soluções:**
+1. Verifique se o backend está rodando
+2. Verifique o indicador de conexão no topo da página (deve estar verde)
+3. Abra o DevTools → Network → WS e veja se há conexão WebSocket
+
+### Banco de dados não cria
+**Soluções:**
+1. Execute manualmente o SQL em `database/schema.sql`
+2. Verifique se tem permissões no MySQL
+3. Tente criar o banco manualmente: `CREATE DATABASE devicesdb;`
+
+---
+
+## 📝 Comandos Úteis
+
+```bash
+# Instalar dependências do backend
+cd backend && npm install
+
+# Instalar dependências do frontend
+cd frontend && npm install
+
+# Rodar backend em modo desenvolvimento
+cd backend && npm run dev
+
+# Rodar frontend em modo desenvolvimento
+cd frontend && npm run dev
+
+# Executar testes
+cd backend && npm test
+
+# Criar banco de dados
+cd backend && npm run setup-db
+```
+
+---
+
+## ✅ Checklist de Instalação
+
+Use este checklist para garantir que tudo está configurado:
+
+- [ ] Node.js instalado (`node --version`)
+- [ ] MySQL instalado e rodando
+- [ ] Projeto clonado/baixado
+- [ ] Banco de dados `devicesdb` criado
+- [ ] Credenciais MySQL configuradas em `backend/src/db.js`
+- [ ] Dependências do backend instaladas (`npm install` no backend)
+- [ ] Dependências do frontend instaladas (`npm install` no frontend)
+- [ ] Backend rodando sem erros (`npm run dev` no backend)
+- [ ] Frontend rodando sem erros (`npm run dev` no frontend)
+- [ ] Aplicação acessível em `http://localhost:5173`
+
+---
+
+## 🎉 Pronto!
+
+Se você seguiu todos os passos, sua aplicação está rodando! 
+
+**Acesse:** http://localhost:5173
+
+**Divirta-se testando o sistema!** 🚀
+
+---
+
+## 📧 Suporte
+
+Se encontrar problemas, verifique:
+1. A seção [Troubleshooting](#-troubleshooting)
+2. Os logs no terminal do backend
+3. O console do navegador (F12 → Console)
+
+---
+
+**Desenvolvido para o Desafio FullStack Novellus** 💜
