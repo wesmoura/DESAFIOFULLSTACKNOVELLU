@@ -1,4 +1,4 @@
-# 🚀 Desafio FullStack Novellus
+# Desafio FullStack Novellus
 
 <div align="center">
 
@@ -9,38 +9,38 @@
 
 **Sistema full-stack para cadastro de dispositivos com atualização em tempo real via WebSocket**
 
-[📖 Documentação](#-passo-a-passo-completo) • [🔌 API](#-api-endpoints) • [🧪 Testes](#-testes) • [❓ Troubleshooting](#-troubleshooting)
+[Documentação](#passo-a-passo-completo) • [API](#api-endpoints) • [Testes](#testes) • [Troubleshooting](#troubleshooting)
 
 </div>
 
 ---
 
-## 📝 Sobre o Projeto
+## Sobre o Projeto
 
 Sistema completo de gerenciamento de dispositivos desenvolvido como desafio técnico. Permite cadastrar dispositivos com endereço MAC, gerenciar seus status (ATIVO/INATIVO) e receber atualizações em tempo real através de WebSocket.
 
-### ✨ Principais Funcionalidades
+### Principais Funcionalidades
 
-- ✅ **CRUD completo** de dispositivos
-- ✅ **Atualização em tempo real** via WebSocket
-- ✅ **Validações robustas** (campos obrigatórios, MAC único)
-- ✅ **Interface moderna** com tema escuro
-- ✅ **Testes automatizados** (unitários e integração)
-- ✅ **Documentação completa** e passo a passo
+- **CRUD completo** de dispositivos
+- **Atualização em tempo real** via WebSocket
+- **Validações robustas** (campos obrigatórios, MAC único)
+- **Interface moderna** com tema escuro
+- **Testes automatizados** (unitários e integração)
+- **Documentação completa** e passo a passo
 
-## 📋 Índice
+## Índice
 
-- [Pré-requisitos](#-pré-requisitos)
-- [Passo a Passo Completo](#-passo-a-passo-completo)
-- [Tecnologias](#-tecnologias)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
-- [API Endpoints](#-api-endpoints)
-- [Testes](#-testes)
-- [Troubleshooting](#-troubleshooting)
+- [Pré-requisitos](#pré-requisitos)
+- [Passo a Passo Completo](#passo-a-passo-completo)
+- [Tecnologias](#tecnologias)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [API Endpoints](#api-endpoints)
+- [Testes](#testes)
+- [Troubleshooting](#troubleshooting)
 
 ---
 
-## 🔧 Pré-requisitos
+## Pré-requisitos
 
 Antes de começar, certifique-se de ter instalado:
 
@@ -61,7 +61,7 @@ Antes de começar, certifique-se de ter instalado:
 
 ---
 
-## 🚀 Passo a Passo Completo
+## Passo a Passo Completo
 
 ### **PASSO 1: Baixar/Clonar o Projeto**
 
@@ -151,7 +151,7 @@ export const db = await mysql.createPool({
 });
 ```
 
-**⚠️ IMPORTANTE**: Se você usa XAMPP/WAMP, geralmente:
+**IMPORTANTE**: Se você usa XAMPP/WAMP, geralmente:
 - Usuário: `root`
 - Senha: `''` (vazio) ou a senha que você configurou
 
@@ -207,18 +207,18 @@ npm run dev
 
 **O que você deve ver:**
 ```
-✅ Conectado ao banco de dados MySQL
+Conectado ao banco de dados MySQL
 Backend rodando na porta 3000
 ```
 
-**✅ SUCESSO**: Se aparecer "Backend rodando na porta 3000", está funcionando!
+**SUCESSO**: Se aparecer "Backend rodando na porta 3000", está funcionando!
 
-**❌ ERRO**: Se aparecer erro de conexão MySQL:
+**ERRO**: Se aparecer erro de conexão MySQL:
 - Verifique se o MySQL está rodando
 - Verifique as credenciais em `backend/src/db.js`
 - Verifique se o banco `devicesdb` foi criado
 
-**⚠️ MANTENHA ESTE TERMINAL ABERTO!** O backend precisa ficar rodando.
+**MANTENHA ESTE TERMINAL ABERTO!** O backend precisa ficar rodando.
 
 ---
 
@@ -239,7 +239,7 @@ npm run dev
   ➜  Network: use --host to expose
 ```
 
-**✅ SUCESSO**: O frontend está rodando em `http://localhost:5173`
+**SUCESSO**: O frontend está rodando em `http://localhost:5173`
 
 ---
 
@@ -269,11 +269,11 @@ npm run dev
 4. **Testar atualização em tempo real:**
    - Abra outra aba do navegador em `http://localhost:5173`
    - Cadastre um novo dispositivo em uma aba
-   - Veja aparecer automaticamente na outra aba! 🎉
+   - Veja aparecer automaticamente na outra aba!
 
 ---
 
-## 🧪 Testes
+## Testes
 
 Para executar os testes automatizados:
 
@@ -283,8 +283,8 @@ npm test
 ```
 
 **O que os testes verificam:**
-- ✅ 1 teste unitário: Validação de MAC único no banco
-- ✅ 6 testes de integração:
+- 1 teste unitário: Validação de MAC único no banco
+- 6 testes de integração:
   - POST /api/devices (criar dispositivo)
   - POST /api/devices (validação de campos obrigatórios)
   - POST /api/devices (validação de MAC único)
@@ -294,7 +294,7 @@ npm test
 
 ---
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 DESAFIOFULLSTACKNOVELLU/
@@ -325,7 +325,7 @@ DESAFIOFULLSTACKNOVELLU/
 
 ---
 
-## 🔌 API Endpoints
+## API Endpoints
 
 ### `POST /api/devices`
 Cria um novo dispositivo.
@@ -387,7 +387,7 @@ Alterna o status do dispositivo (ATIVO ↔ INATIVO).
 
 ---
 
-## 🔄 WebSocket Events
+## WebSocket Events
 
 O sistema emite eventos em tempo real via Socket.io:
 
@@ -419,7 +419,7 @@ Emitido quando o status de um dispositivo é alterado.
 
 ---
 
-## 🛠️ Tecnologias
+## Tecnologias
 
 ### Backend
 - **Node.js** - Runtime JavaScript
@@ -438,7 +438,7 @@ Emitido quando o status de um dispositivo é alterado.
 
 ---
 
-## ❗ Troubleshooting
+## Troubleshooting
 
 ### Erro: "Cannot find module"
 **Solução:** Execute `npm install` na pasta do backend ou frontend.
@@ -476,7 +476,7 @@ Emitido quando o status de um dispositivo é alterado.
 
 ---
 
-## 🏗️ Arquitetura e Decisões Técnicas
+## Arquitetura e Decisões Técnicas
 
 ### Estrutura do Projeto
 
@@ -524,14 +524,14 @@ frontend/
 
 ### Segurança
 
-- ✅ Validação de entrada em todas as rotas
-- ✅ Prepared Statements (proteção contra SQL Injection)
-- ✅ Tratamento de erros sem expor detalhes sensíveis
-- ⚠️ CORS configurado para desenvolvimento (ajustar para produção)
+- Validação de entrada em todas as rotas
+- Prepared Statements (proteção contra SQL Injection)
+- Tratamento de erros sem expor detalhes sensíveis
+- CORS configurado para desenvolvimento (ajustar para produção)
 
 ---
 
-## 📝 Comandos Úteis
+## Comandos Úteis
 
 ```bash
 # Instalar dependências do backend
@@ -555,7 +555,7 @@ cd backend && npm run setup-db
 
 ---
 
-## ✅ Checklist de Instalação
+## Checklist de Instalação
 
 Use este checklist para garantir que tudo está configurado:
 
@@ -572,23 +572,23 @@ Use este checklist para garantir que tudo está configurado:
 
 ---
 
-## 🎉 Pronto!
+## Pronto!
 
 Se você seguiu todos os passos, sua aplicação está rodando! 
 
 **Acesse:** http://localhost:5173
 
-**Divirta-se testando o sistema!** 🚀
+**Divirta-se testando o sistema!**
 
 ---
 
-## 📧 Suporte
+## Suporte
 
 Se encontrar problemas, verifique:
-1. A seção [Troubleshooting](#-troubleshooting)
+1. A seção [Troubleshooting](#troubleshooting)
 2. Os logs no terminal do backend
 3. O console do navegador (F12 → Console)
 
 ---
 
-**Desenvolvido para o Desafio FullStack Novellus** 💜
+**Desenvolvido para o Desafio FullStack Novellus**
