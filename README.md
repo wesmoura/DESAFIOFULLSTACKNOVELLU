@@ -1,6 +1,32 @@
-# Desafio FullStack Novellus
+# 🚀 Desafio FullStack Novellus
 
-Sistema full-stack para cadastro de dispositivos com atualização em tempo real via WebSocket.
+<div align="center">
+
+![Node.js](https://img.shields.io/badge/Node.js-18+-green?style=for-the-badge&logo=node.js)
+![Vue.js](https://img.shields.io/badge/Vue.js-3.4-4FC08D?style=for-the-badge&logo=vue.js)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql)
+![Socket.io](https://img.shields.io/badge/Socket.io-4.8-010101?style=for-the-badge&logo=socket.io)
+
+**Sistema full-stack para cadastro de dispositivos com atualização em tempo real via WebSocket**
+
+[📖 Documentação](#-passo-a-passo-completo) • [🔌 API](#-api-endpoints) • [🧪 Testes](#-testes) • [❓ Troubleshooting](#-troubleshooting)
+
+</div>
+
+---
+
+## 📝 Sobre o Projeto
+
+Sistema completo de gerenciamento de dispositivos desenvolvido como desafio técnico. Permite cadastrar dispositivos com endereço MAC, gerenciar seus status (ATIVO/INATIVO) e receber atualizações em tempo real através de WebSocket.
+
+### ✨ Principais Funcionalidades
+
+- ✅ **CRUD completo** de dispositivos
+- ✅ **Atualização em tempo real** via WebSocket
+- ✅ **Validações robustas** (campos obrigatórios, MAC único)
+- ✅ **Interface moderna** com tema escuro
+- ✅ **Testes automatizados** (unitários e integração)
+- ✅ **Documentação completa** e passo a passo
 
 ## 📋 Índice
 
@@ -447,6 +473,61 @@ Emitido quando o status de um dispositivo é alterado.
 1. Execute manualmente o SQL em `database/schema.sql`
 2. Verifique se tem permissões no MySQL
 3. Tente criar o banco manualmente: `CREATE DATABASE devicesdb;`
+
+---
+
+## 🏗️ Arquitetura e Decisões Técnicas
+
+### Estrutura do Projeto
+
+O projeto segue uma arquitetura **MVC simplificada** com separação clara de responsabilidades:
+
+```
+backend/
+├── src/
+│   ├── server.js    # Configuração do servidor e WebSocket
+│   ├── routes.js     # Lógica de negócio e rotas da API
+│   └── db.js         # Camada de acesso a dados
+└── tests/            # Testes automatizados
+
+frontend/
+├── App.vue          # Componente principal (Single File Component)
+├── main.js          # Ponto de entrada Vue
+└── vite.config.js   # Configuração do build tool
+```
+
+### Decisões Técnicas
+
+#### Backend
+- **Express.js**: Framework web minimalista e flexível
+- **Socket.io**: Biblioteca robusta para WebSocket com fallback automático
+- **MySQL2**: Driver oficial do MySQL com suporte a Promises
+- **Connection Pool**: Gerenciamento eficiente de conexões com o banco
+
+#### Frontend
+- **Vue 3 Composition API**: Código mais organizado e reutilizável
+- **Vite**: Build tool rápido com HMR (Hot Module Replacement)
+- **Single File Components**: Organização e encapsulamento de componentes
+
+#### Banco de Dados
+- **MySQL**: Banco relacional confiável e amplamente usado
+- **ENUM para status**: Garantia de integridade dos dados
+- **Índice único em MAC**: Performance e validação de unicidade
+
+### Padrões de Código
+
+- **ES6 Modules**: Import/export para modularidade
+- **Async/Await**: Tratamento assíncrono moderno
+- **JSDoc**: Documentação inline do código
+- **Error Handling**: Try/catch em todas as operações críticas
+- **RESTful API**: Padrão REST para endpoints
+
+### Segurança
+
+- ✅ Validação de entrada em todas as rotas
+- ✅ Prepared Statements (proteção contra SQL Injection)
+- ✅ Tratamento de erros sem expor detalhes sensíveis
+- ⚠️ CORS configurado para desenvolvimento (ajustar para produção)
 
 ---
 
